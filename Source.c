@@ -2,7 +2,7 @@
 #define N 20
 
 void main() {
-	int n = 0, m = 0, maxA, minA, t, arrayA[N][N], arrayB[N][N], rows = 6, col = 3, diff;
+	int n = 0, m = 0, maxA, minA, t, arrayA[N][N], arrayB[N][N], diff;
 
 	printf("Input matrix size\n");
 	t = scanf_s("%d", &n);
@@ -25,32 +25,26 @@ void main() {
 		}
 	}
 
-	if (rows > n) {
-		rows = n;
-	}
-	if (col > n){
-		col = n;
-	}
-	
-	maxA = minA = arrayA[0][0];
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < col; j++) {
-			if (maxA < arrayA[i][j]) {
-				maxA = arrayA[i][j];
-			}
-			if (minA > arrayA[i][j]) {
-				minA = arrayA[i][j];
-			}
-		}
-	}
-
-	diff = maxA - minA;
-
-	for (int i = 0; i < n; i++){
+	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
-			arrayB[i][j] = diff;
+			maxA = arrayA[0][0];
+			for (int o = 0; o < i + 1; o++) {
+				for (int p = 0; p < j + 1; p++) {
+					if (maxA < arrayA[o][p]) maxA = arrayA[o][p];
+				}
+			}
+
+			minA = arrayA[0][0];
+			for (int o = 0; o < i + 1; o++) {
+				for (int p = 0; p < j + 1; p++) {
+					if (minA > arrayA[o][p]) minA = arrayA[o][p];
+				}
+			}
+
+			arrayB[i][j] = maxA - minA;
 		}
 	}
+
 
 	printf("\nYour matrix\n");
 	for (int i = 0; i < n; i++) {
@@ -59,6 +53,8 @@ void main() {
 			printf("%d ", arrayA[i][j]);
 		}
 	}
+	printf("\n");
+
 	printf("\nNew matrix\n");
 	for (int i = 0; i < n; i++) {
 		printf("\n");
@@ -67,3 +63,4 @@ void main() {
 		}
 	}
 }
+
