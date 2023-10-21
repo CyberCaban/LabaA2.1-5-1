@@ -1,8 +1,47 @@
 #include <stdio.h>
 #define N 20
 
+
+float findMinMax(float* matrix, int size_n, int size_m, float *max, float *min) {
+	*min = *max = *matrix;
+	for (int i = 0; i < size_n; i++){
+		for (int j = 0; j < size_m; j++) {
+			int shift = i * N + j;
+			float currEl = *(matrix + shift);
+			if ( *min > currEl) *min = currEl;
+			if ( *max < currEl) *max = currEl;
+		}
+	}
+}
+
+float myFloatInput() {
+	int t;
+	float res;
+
+	t = scanf_s("%f", &res);
+
+	while (!t) {
+		printf("You entered not a number\n");
+		scanf_s("%*c");
+		t = scanf_s("%f", &res);
+	}
+
+	return res;
+}
+
+void matrixCOUT(float* matrix, int size_n, int size_m) {
+	for (int i = 0; i < size_n; i++) {
+		printf("\n");
+		for (int j = 0; j < size_m; j++) {
+			int shift = i * N + j;
+			printf("%5.2f ", *(matrix + shift));
+		}
+	}
+}
+
 void main() {
-	int n = 0, m = 0, maxA, minA, t, arrayA[N][N], arrayB[N][N], diff;
+	int n = 0;
+	float maxA, minA, t, arrayA[N][N], arrayB[N][N];
 
 	printf("Input matrix size\n");
 	t = scanf_s("%d", &n);
@@ -15,52 +54,23 @@ void main() {
 	printf("Input matrix\n");
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
-			if (scanf_s("%d", &t)) {
-				arrayA[i][j] = t;
-			}
-			else {
-				printf("You entered not a number\n");
-				return;
-			}
+			arrayA[i][j] = myFloatInput();
 		}
 	}
 
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
-			maxA = arrayA[0][0];
-			for (int o = 0; o < i + 1; o++) {
-				for (int p = 0; p < j + 1; p++) {
-					if (maxA < arrayA[o][p]) maxA = arrayA[o][p];
-				}
-			}
-
-			minA = arrayA[0][0];
-			for (int o = 0; o < i + 1; o++) {
-				for (int p = 0; p < j + 1; p++) {
-					if (minA > arrayA[o][p]) minA = arrayA[o][p];
-				}
-			}
-
+			findMinMax(&arrayA, i + 1, j + 1, &maxA, &minA);
 			arrayB[i][j] = maxA - minA;
 		}
 	}
 
-
 	printf("\nYour matrix\n");
-	for (int i = 0; i < n; i++) {
-		printf("\n");
-		for (int j = 0; j < n; j++) {
-			printf("%d ", arrayA[i][j]);
-		}
-	}
+	matrixCOUT(&arrayA, n, n);
+
 	printf("\n");
 
 	printf("\nNew matrix\n");
-	for (int i = 0; i < n; i++) {
-		printf("\n");
-		for (int j = 0; j < n; j++) {
-			printf("%d ", arrayB[i][j]);
-		}
-	}
+	matrixCOUT(&arrayB, n, n);
 }
 
