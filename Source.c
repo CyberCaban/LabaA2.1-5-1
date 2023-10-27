@@ -2,14 +2,13 @@
 #define N 20
 
 
-float findMinMax(float* matrix, int size_n, int size_m, float *max, float *min) {
-	*min = *max = *matrix;
+void findMinMax(const float matrix[][N], int size_n, int size_m, float* max, float* min) {
+	*min = *max = matrix[0][0];
 	for (int i = 0; i < size_n; i++){
 		for (int j = 0; j < size_m; j++) {
-			int shift = i * N + j;
-			float currEl = *(matrix + shift);
-			if ( *min > currEl) *min = currEl;
-			if ( *max < currEl) *max = currEl;
+			float currEl = matrix[i][j];
+			if (*min > currEl) *min = currEl;
+			if (*max < currEl) *max = currEl;
 		}
 	}
 }
@@ -29,12 +28,11 @@ float myFloatInput() {
 	return res;
 }
 
-void matrixCOUT(float* matrix, int size_n, int size_m) {
+void matrixCOUT(float matrix[][N], int size_n, int size_m) {
 	for (int i = 0; i < size_n; i++) {
 		printf("\n");
 		for (int j = 0; j < size_m; j++) {
-			int shift = i * N + j;
-			printf("%5.2f ", *(matrix + shift));
+			printf("%5.2f ", matrix[i][j]);
 		}
 	}
 }
@@ -60,17 +58,17 @@ void main() {
 
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
-			findMinMax(&arrayA, i + 1, j + 1, &maxA, &minA);
+			findMinMax(arrayA, i + 1, j + 1, &maxA, &minA);
 			arrayB[i][j] = maxA - minA;
 		}
 	}
 
 	printf("\nYour matrix\n");
-	matrixCOUT(&arrayA, n, n);
+	matrixCOUT(arrayA, n, n);
 
 	printf("\n");
 
 	printf("\nNew matrix\n");
-	matrixCOUT(&arrayB, n, n);
+	matrixCOUT(arrayB, n, n);
 }
 
